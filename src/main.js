@@ -1,16 +1,13 @@
 // Jim Whitehead
-// Created: 5/14/2025
+// Created: 5/18/2025
 // Phaser: 3.70.0
 //
-// Particle Practice Kit
+// Animated Tiles Example
 //
-// An example platformer layer with coin objects.
-// The goal is to add particle effects for when the player collects a coin, and
-// for the water to have bubbles, and for when the player falls in the water.
+// An example platformer layer with animated tiles. Demonstrates use
+// of the animated tiles plugin for Phaser.
 //
 
-// debug with extreme prejudice
-"use strict"
 
 // game config
 let config = {
@@ -29,13 +26,12 @@ let config = {
             }
         }
     },
-    width: 1440,
-    height: 900,
+    width: 1200,
+    height: 800,
     scene: [Load, Platformer]
 }
 
 var cursors;
-const SCALE = 2.0;
 var my = {sprite: {}, text: {}, vfx: {}};
 
 const game = new Phaser.Game(config);

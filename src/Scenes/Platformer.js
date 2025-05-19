@@ -6,11 +6,16 @@ class Platformer extends Phaser.Scene {
     init() {
         // variables and settings
         this.ACCELERATION = 400;
-        this.DRAG = 500;    // DRAG < ACCELERATION = icy slide
-        this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -600;
+        this.DRAG = 1500;    // DRAG < ACCELERATION = icy slide
+        this.physics.world.gravity.y = 2000;
+        this.JUMP_VELOCITY = -650;
         this.PARTICLE_VELOCITY = 50;
         this.SCALE = 2.0;
+    }
+
+    preload() {
+        // Load the animated tiles plugin
+        this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
     }
 
     create() {
@@ -44,16 +49,6 @@ class Platformer extends Phaser.Scene {
         // This will be used for collision detection below.
         this.coinGroup = this.add.group(this.coins);
 
-        // Find water tiles
-        this.waterTiles = this.groundLayer.filterTiles(tile => {
-            return tile.properties.water == true;
-        });
-
-        ////////////////////
-        // TODO: put water bubble particle effect here
-        // It's OK to have it start running
-        ////////////////////
-
 
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(30, 345, "platformer_characters", "tile_0000.png");
@@ -64,16 +59,6 @@ class Platformer extends Phaser.Scene {
 
         // TODO: create coin collect particle effect here
         // Important: make sure it's not running
-
-
-        // Coin collision handler
-        this.physics.add.overlap(my.sprite.player, this.coinGroup, (obj1, obj2) => {
-            obj2.destroy(); // remove coin on overlap
-            ////////////////////
-            // TODO: start the coin collect particle effect here
-            ////////////////////
-
-        });
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -86,15 +71,16 @@ class Platformer extends Phaser.Scene {
             this.physics.world.debugGraphic.clear()
         }, this);
 
-        // TODO: Add movement vfx here
-        
-
         // Simple camera to follow player
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25); // (target, [,roundPixels][,lerpX][,lerpY])
         this.cameras.main.setDeadzone(50, 50);
         this.cameras.main.setZoom(this.SCALE);
         
+        // Initialize the animated tiles plugin
+        // This line needs to come *after* any line which creates a tilemap layer.
+        // Putting this at the end of create() is a safe place
+        this.animatedTiles.init(this.map);
 
     }
 
