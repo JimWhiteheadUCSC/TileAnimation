@@ -49,16 +49,12 @@ class Platformer extends Phaser.Scene {
         // This will be used for collision detection below.
         this.coinGroup = this.add.group(this.coins);
 
-
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(30, 345, "platformer_characters", "tile_0000.png");
         my.sprite.player.setCollideWorldBounds(true);
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
-
-        // TODO: create coin collect particle effect here
-        // Important: make sure it's not running
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
