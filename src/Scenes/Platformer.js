@@ -43,6 +43,19 @@ class Platformer extends Phaser.Scene {
             frame: 151
         });
 
+        // Create animation for coins created from Object layer
+        this.anims.create({
+            key: 'coinAnim', // Animation key
+            frames: this.anims.generateFrameNumbers('tilemap_sheet', 
+                {start: 151, end: 152}
+            ),
+            frameRate: 10,  // Higher is faster
+            repeat: -1      // Loop the animation indefinitely
+        });
+
+        // Play the same animation for every memeber of the Object coins array
+        this.anims.play('coinAnim', this.coins);
+
         this.physics.world.enable(this.coins, Phaser.Physics.Arcade.STATIC_BODY);
 
         // Create a Phaser group out of the array this.coins
